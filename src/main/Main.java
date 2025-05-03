@@ -9,11 +9,13 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
-        Board board = new Board();
+        GamePanel board = new GamePanel();
         window.add(board);
         window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        board.launchGame();
     }
 }
