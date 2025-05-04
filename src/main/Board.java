@@ -11,11 +11,10 @@ public class Board {
     public void draw(Graphics2D g2) {
         for (int row = 0; row < MAX_ROWS; row++) {
             for (int col = 0; col < MAX_COLUMNS; col++) {
-                if((row + col) % 2 == 0) {
+                if((row + col) % 2 == 0)
                     g2.setColor(new Color(235, 235, 210));
-                } else {
+                else
                     g2.setColor(new Color(120, 150, 85));
-                }
                 g2.fillRect(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
             }
         }

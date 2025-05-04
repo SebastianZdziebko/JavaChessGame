@@ -12,10 +12,12 @@ public class GamePanel  extends JPanel implements Runnable{
     final int FPS = 60;
     Thread gameThread;
     Board board = new Board();
+    Mouse mouse = new Mouse();
 
     // Pieces
     public static ArrayList<Piece> pieces = new ArrayList<>();
     public static ArrayList<Piece> simPieces = new ArrayList<>();
+    Piece activePiece;
 
     // Color
     public static boolean currentColor = true;
@@ -23,6 +25,8 @@ public class GamePanel  extends JPanel implements Runnable{
     public GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setBackground(Color.BLACK);
+        addMouseMotionListener(mouse);
+        addMouseListener(mouse);
 
         setPiece();
         copyPieces(pieces, simPieces);
@@ -87,6 +91,32 @@ public class GamePanel  extends JPanel implements Runnable{
     }
 
     private void update(){
+        if(mouse.pressed) {
+            if (activePiece == null) {
+                for (Piece piece : simPieces) {
+                    if (piece.color == currentColor &&
+                            piece.col == mouse.x / Board.SQUARE_SIZE &&
+                            piece.row == mouse.y / Board.SQUARE_SIZE) {
+                        activePiece = piece;
+                    }
+                }
+            } else {
+                simulate();
+            }
+        }
+        if(!mouse.pressed){
+            if(activePiece != null){
+                activePiece.updatePosition();
+                activePiece = null;
+            }
+        }
+    }
+
+    private void simulate(){
+        activePiece.x = mouse.x - Board.HALF_SQUARE;
+        activePiece.y = mouse.y - Board.HALF_SQUARE;
+        activePiece.col = activePiece.getCol(activePiece.x);
+        activePiece.row = activePiece.getRow(activePiece.y);
 
     }
 
@@ -102,6 +132,16 @@ public class GamePanel  extends JPanel implements Runnable{
         // Pieces
         for(Piece p : simPieces){
             p.draw(g2);
+        }
+
+        if(activePiece != null){
+            g2.setColor(Color.red);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g2.fillRect(activePiece.col * Board.SQUARE_SIZE, activePiece.row * Board.SQUARE_SIZE,
+                    Board.SQUARE_SIZE, Board.SQUARE_SIZE);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+            activePiece.draw(g2);
         }
     }
 }

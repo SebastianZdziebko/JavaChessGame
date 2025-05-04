@@ -38,6 +38,22 @@ public class Piece {
         return value * Board.SQUARE_SIZE;
     }
 
+    public int getCol(int x){
+        return (x + Board.HALF_SQUARE) / Board.SQUARE_SIZE;
+    }
+
+    public int getRow(int y){
+        return (y + Board.HALF_SQUARE) / Board.SQUARE_SIZE;
+    }
+
+    public void updatePosition(){
+        x = getCoordinate(col);
+        y = getCoordinate(row);
+        preCol = getCol(x);
+        preRow = getRow(y);
+    }
+
+
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
     }
