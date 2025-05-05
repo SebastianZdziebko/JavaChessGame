@@ -9,7 +9,7 @@ public class Knight extends Piece {
 
         type = Type.KNIGHT;
 
-        if (color == GamePanel.currentColor)
+        if (color)
             image = getImage("/piece/knight-white");
         else
             image = getImage("/piece/knight-black");

@@ -9,7 +9,7 @@ public class Pawn extends Piece {
 
         type = Type.PAWN;
 
-        if (color == GamePanel.currentColor)
+        if (color)
             image = getImage("/piece/pawn-white");
         else
             image = getImage("/piece/pawn-black");

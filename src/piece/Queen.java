@@ -9,7 +9,7 @@ public class Queen extends Piece {
 
         type = Type.QUEEN;
 
-        if (color == GamePanel.currentColor)
+        if (color)
             image = getImage("/piece/queen-white");
         else
             image = getImage("/piece/queen-black");
