@@ -22,6 +22,9 @@ public class GamePanel  extends JPanel implements Runnable{
     // Color
     public static boolean currentColor = true;
 
+    boolean canMove;
+    boolean validSquare;
+
     public GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setBackground(Color.BLACK);
@@ -51,7 +54,7 @@ public class GamePanel  extends JPanel implements Runnable{
         pieces.add(new Bishop(true, 2, 7));
         pieces.add(new Bishop(true, 5, 7));
         pieces.add(new Queen(true, 3, 7));
-        pieces.add(new King(true, 4, 7));
+        pieces.add(new King(true, 4, 4));
 
         // Black
         pieces.add(new Rook(false, 0, 0));
@@ -106,18 +109,42 @@ public class GamePanel  extends JPanel implements Runnable{
         }
         if(!mouse.pressed){
             if(activePiece != null){
-                activePiece.updatePosition();
+
+                if(validSquare) {
+                    copyPieces(simPieces, pieces);
+                    activePiece.updatePosition();
+                }
+                else {
+                    copyPieces(pieces, simPieces);
+                    activePiece.resetPosition();
+                    activePiece = null;
+                }
+
                 activePiece = null;
             }
         }
     }
 
     private void simulate(){
+        canMove = false;
+        validSquare = false;
+
+        copyPieces(pieces, simPieces);
+
         activePiece.x = mouse.x - Board.HALF_SQUARE;
         activePiece.y = mouse.y - Board.HALF_SQUARE;
         activePiece.col = activePiece.getCol(activePiece.x);
         activePiece.row = activePiece.getRow(activePiece.y);
 
+        if(activePiece.canMove(activePiece.col, activePiece.row)){
+            canMove = true;
+
+            if(activePiece.hittingPiece != null){
+                simPieces.remove(activePiece.hittingPiece.getIndex());
+            }
+
+            validSquare = true;
+        }
     }
 
     // Drawing
@@ -135,11 +162,13 @@ public class GamePanel  extends JPanel implements Runnable{
         }
 
         if(activePiece != null){
-            g2.setColor(Color.red);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            g2.fillRect(activePiece.col * Board.SQUARE_SIZE, activePiece.row * Board.SQUARE_SIZE,
-                    Board.SQUARE_SIZE, Board.SQUARE_SIZE);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            if(canMove) {
+                g2.setColor(Color.red);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+                g2.fillRect(activePiece.col * Board.SQUARE_SIZE, activePiece.row * Board.SQUARE_SIZE,
+                        Board.SQUARE_SIZE, Board.SQUARE_SIZE);
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            }
 
             activePiece.draw(g2);
         }
