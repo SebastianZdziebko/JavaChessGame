@@ -38,6 +38,15 @@ public class Pawn extends Piece {
             hittingPiece.color != color){
                 return true;
             }
+
+            if(Math.abs(targetCol - preCol) == 1 && targetRow == preRow + moveValue){
+                for(Piece piece : GamePanel.simPieces)
+                if(piece.col == targetCol && piece.row == preRow && piece.twoStepped == true){
+                    hittingPiece = piece;
+                    return true;
+                }
+            }
+
         }
         return false;
     }

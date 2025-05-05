@@ -17,6 +17,7 @@ public class GamePanel  extends JPanel implements Runnable{
     // Pieces
     public static ArrayList<Piece> pieces = new ArrayList<>();
     public static ArrayList<Piece> simPieces = new ArrayList<>();
+    ArrayList<Piece> promoPieces = new ArrayList<>();
     public static Piece castlingPiece;
     Piece activePiece;
 
@@ -25,6 +26,7 @@ public class GamePanel  extends JPanel implements Runnable{
 
     boolean canMove;
     boolean validSquare;
+    boolean promotion;
 
     public GamePanel(){
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -177,10 +179,23 @@ public class GamePanel  extends JPanel implements Runnable{
     }
 
     private void changePlayer(){
-        if( currentColor)
+        if( currentColor) {
             currentColor = false;
-        else
+
+            for(Piece piece : pieces){
+                if(piece.color == false){
+                    piece.twoStepped = false;
+                }
+            }
+        } else {
             currentColor = true;
+
+            for(Piece piece : pieces){
+                if(piece.color == true){
+                    piece.twoStepped = false;
+                }
+            }
+        }
 
         activePiece = null;
     }

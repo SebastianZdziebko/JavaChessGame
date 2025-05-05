@@ -61,6 +61,12 @@ public class Piece {
     }
 
     public void updatePosition(){
+        if(type == Type.PAWN){
+            if(Math.abs(row - preRow) == 2){
+                twoStepped = true;
+            }
+        }
+
         x = getCoordinate(col);
         y = getCoordinate(row);
         preCol = getCol(x);
