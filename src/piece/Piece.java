@@ -13,6 +13,7 @@ public class Piece {
     public int col, row, preCol, preRow;
     public boolean color;
     public Piece hittingPiece;
+    public boolean moved, twoStepped;
 
     public Piece(boolean color, int col, int row) {
         this.color = color;
@@ -62,6 +63,7 @@ public class Piece {
         y = getCoordinate(row);
         preCol = getCol(x);
         preRow = getRow(y);
+        moved = true ;
     }
 
     public void resetPosition(){
