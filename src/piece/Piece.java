@@ -2,12 +2,14 @@ package piece;
 
 import main.Board;
 import main.GamePanel;
+import main.Type;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Piece {
+    public Type type;
     public BufferedImage image;
     public int x, y;
     public int col, row, preCol, preRow;
