@@ -15,6 +15,7 @@ public class Board {
                     g2.setColor(new Color(235, 235, 210));
                 else
                     g2.setColor(new Color(120, 150, 85));
+
                 g2.fillRect(col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
             }
         }

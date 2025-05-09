@@ -16,7 +16,7 @@ public class Pawn extends Piece {
     }
 
     public boolean canMove(int targetCol, int targetRow) {
-        if(isWithinBoard(targetCol, targetRow) && isSameSquare(targetCol, targetRow) == false){
+        if(isWithinBoard(targetCol, targetRow) && !isSameSquare(targetCol, targetRow)){
 
             int moveValue;
             if(color)
@@ -25,28 +25,24 @@ public class Pawn extends Piece {
                 moveValue = 1;
 
             hittingPiece = getHittingPiece(targetCol, targetRow);
-            if(targetCol == preCol && targetRow == preRow + moveValue && hittingPiece == null){
+            if(targetCol == preCol && targetRow == preRow + moveValue && hittingPiece == null)
                 return true;
-            }
 
-            if(targetCol == preCol && targetRow == preRow + moveValue * 2 && moved == false &&
-                pieceIsOnStraightLine(targetCol, targetRow) == false && hittingPiece == null){
+            if(targetCol == preCol && targetRow == preRow + moveValue * 2 && !moved &&
+                    !pieceIsOnStraightLine(targetCol, targetRow) && hittingPiece == null)
                 return true;
-            }
 
             if(Math.abs(targetCol - preCol) == 1 && targetRow == preRow + moveValue && hittingPiece != null &&
-            hittingPiece.color != color){
+            hittingPiece.color != color)
                 return true;
-            }
 
             if(Math.abs(targetCol - preCol) == 1 && targetRow == preRow + moveValue){
                 for(Piece piece : GamePanel.simPieces)
-                if(piece.col == targetCol && piece.row == preRow && piece.twoStepped == true){
-                    hittingPiece = piece;
-                    return true;
-                }
+                    if(piece.col == targetCol && piece.row == preRow && piece.twoStepped){
+                        hittingPiece = piece;
+                        return true;
+                    }
             }
-
         }
         return false;
     }

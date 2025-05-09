@@ -1,6 +1,5 @@
 package piece;
 
-import main.GamePanel;
 import main.Type;
 
 public class Rook extends Piece {
@@ -18,9 +17,8 @@ public class Rook extends Piece {
     public boolean canMove(int targetCol, int targetRow) {
         if(isWithinBoard(targetCol, targetRow) && !isSameSquare(targetCol, targetRow)){
             if(targetCol == preCol || targetRow == preRow){
-                if(isValidSquare(targetCol, targetRow) && pieceIsOnStraightLine(targetCol, targetRow) == false){
+                if(isValidSquare(targetCol, targetRow) && !pieceIsOnStraightLine(targetCol, targetRow))
                     return true;
-                }
             }
         }
         return false;

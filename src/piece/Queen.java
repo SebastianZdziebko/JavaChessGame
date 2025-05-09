@@ -1,6 +1,5 @@
 package piece;
 
-import main.GamePanel;
 import main.Type;
 
 public class Queen extends Piece {
@@ -16,18 +15,16 @@ public class Queen extends Piece {
     }
 
     public boolean canMove(int targetCol, int targetRow) {
-        if(isWithinBoard(targetCol, targetRow) && isSameSquare(targetCol, targetRow) == false){
+        if(isWithinBoard(targetCol, targetRow) && !isSameSquare(targetCol, targetRow)){
 
             if(targetCol == preCol || targetRow == preRow) {
-                if (isValidSquare(targetCol, targetRow) && pieceIsOnStraightLine(targetCol, targetRow) == false) {
+                if (isValidSquare(targetCol, targetRow) && !pieceIsOnStraightLine(targetCol, targetRow))
                     return true;
-                }
             }
 
             if(Math.abs(targetCol - preCol) == Math.abs(targetRow - preRow)) {
-                if (isValidSquare(targetCol, targetRow) && pieceIsOnDiagonalLine(targetCol, targetRow) == false) {
+                if (isValidSquare(targetCol, targetRow) && !pieceIsOnDiagonalLine(targetCol, targetRow))
                     return true;
-                }
             }
         }
         return false;

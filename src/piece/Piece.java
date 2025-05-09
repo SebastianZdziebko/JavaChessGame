@@ -14,8 +14,9 @@ public class Piece {
     public int x, y;
     public int col, row, preCol, preRow;
     public boolean color;
-    public Piece hittingPiece;
     public boolean moved, twoStepped;
+    public Piece hittingPiece;
+
 
     public Piece(boolean color, int col, int row) {
         this.color = color;
@@ -39,32 +40,23 @@ public class Piece {
         return image;
     }
 
-    public int getCoordinate(int value){
-        return value * Board.SQUARE_SIZE;
-    }
-
-    public int getCol(int x){
-        return (x + Board.HALF_SQUARE) / Board.SQUARE_SIZE;
-    }
-
-    public int getRow(int y){
-        return (y + Board.HALF_SQUARE) / Board.SQUARE_SIZE;
-    }
+    public int getCoordinate(int value){ return value * Board.SQUARE_SIZE; }
+    public int getCol(int x){ return (x + Board.HALF_SQUARE) / Board.SQUARE_SIZE; }
+    public int getRow(int y){ return (y + Board.HALF_SQUARE) / Board.SQUARE_SIZE; }
+    public boolean canMove(int targetCol, int targetRow){ return false; }
 
     public int getIndex(){
         for( int i = 0; i < GamePanel.simPieces.size(); i++ ){
-            if(GamePanel.simPieces.get(i) == this){
+            if(GamePanel.simPieces.get(i) == this)
                 return i;
-            }
         }
         return 0;
     }
 
     public void updatePosition(){
         if(type == Type.PAWN){
-            if(Math.abs(row - preRow) == 2){
+            if(Math.abs(row - preRow) == 2)
                 twoStepped = true;
-            }
         }
 
         x = getCoordinate(col);
@@ -81,10 +73,6 @@ public class Piece {
         y = getCoordinate(row);
     }
 
-    public boolean canMove(int targetCol, int targetRow){
-        return false;
-    }
-
     public boolean isWithinBoard(int targetCol, int targetRow){
         if(targetCol >= 0 && targetCol <= 7 && targetRow >= 0 && targetRow <= 7)
             return true;
@@ -99,9 +87,8 @@ public class Piece {
 
     public Piece getHittingPiece(int targetCol, int targetRow){
         for(Piece piece : GamePanel.simPieces){
-            if(piece.col == targetCol && piece.row == targetRow && piece != this){
+            if(piece.col == targetCol && piece.row == targetRow && piece != this)
                 return piece;
-            }
         }
         return null;
     }
@@ -160,7 +147,6 @@ public class Piece {
                 }
             }
         }
-
         return false;
     }
 
@@ -215,7 +201,5 @@ public class Piece {
         return false;
     }
 
-    public void draw(Graphics2D g2) {
-        g2.drawImage(image, x, y, Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
-    }
+    public void draw(Graphics2D g2) { g2.drawImage(image, x, y, Board.SQUARE_SIZE, Board.SQUARE_SIZE, null); }
 }

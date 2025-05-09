@@ -72,11 +72,6 @@ public class GamePanel  extends JPanel implements Runnable{
         pieces.add(new King(false, 4, 0));
     }
 
-    public void testIllegal(){
-
-    }
-
-
     private void copyPieces(ArrayList<Piece> source, ArrayList<Piece> target){
         target.clear();
         for(int i = 0; i < source.size(); i++)
@@ -107,45 +102,38 @@ public class GamePanel  extends JPanel implements Runnable{
         if(promotion){
             promoting();
         } else if(!gameOver && !stalemate){
-
             if(mouse.pressed) {
                 if (activePiece == null) {
                     for (Piece piece : simPieces) {
                         if (piece.color == currentColor &&
-                                piece.col == mouse.x / Board.SQUARE_SIZE &&
-                                piece.row == mouse.y / Board.SQUARE_SIZE)
-                        {
+                            piece.col == mouse.x / Board.SQUARE_SIZE &&
+                            piece.row == mouse.y / Board.SQUARE_SIZE) {
                             activePiece = piece;
                         }
                     }
-                } else {
+                } else
                     simulate();
-                }
             }
             if(!mouse.pressed){
                 if(activePiece != null){
-
                     if(validSquare) {
-
                         copyPieces(simPieces, pieces);
                         activePiece.updatePosition();
 
-                        if(castlingPiece != null){
+                        if(castlingPiece != null)
                             castlingPiece.updatePosition();
-                        }
 
-                        if(isKingInCheck() && isCheckmate()){
+                        if(isKingInCheck() && isCheckmate())
                             gameOver = true;
-                        }
+
                         else if(isStalemate() && !isKingInCheck()){
                             stalemate = true;
                         }
                         else {
-                            if(canPromote()) {
+                            if(canPromote())
                                 promotion = true;
-                            } else {
+                            else
                                 changePlayer();
-                            }
                         }
 
                     } else {
@@ -178,15 +166,13 @@ public class GamePanel  extends JPanel implements Runnable{
         if(activePiece.canMove(activePiece.col, activePiece.row)){
             canMove = true;
 
-            if(activePiece.hittingPiece != null){
+            if(activePiece.hittingPiece != null)
                 simPieces.remove(activePiece.hittingPiece.getIndex());
-            }
 
             checkCasting();
 
-            if(!isIllegal(activePiece) && !opponentCanCaptureKing() ){
+            if(!isIllegal(activePiece) && !opponentCanCaptureKing())
                 validSquare = true;
-            }
         }
     }
 
@@ -219,9 +205,8 @@ public class GamePanel  extends JPanel implements Runnable{
         if(activePiece.canMove(king.col, king.row)){
             checkingPiece = activePiece;
             return true;
-        } else {
+        } else
             checkingPiece = null;
-        }
 
         return false;
     }
@@ -231,14 +216,11 @@ public class GamePanel  extends JPanel implements Runnable{
 
         for(Piece piece : simPieces){
             if(opponent){
-                if(piece.type == Type.KING && piece.color != currentColor){
+                if(piece.type == Type.KING && piece.color != currentColor)
                     king = piece;
-                }
-            }
-            else {
-                if(piece.type == Type.KING && piece.color == currentColor){
+            } else {
+                if(piece.type == Type.KING && piece.color == currentColor)
                     king = piece;
-                }
             }
         }
         return king;
@@ -258,18 +240,17 @@ public class GamePanel  extends JPanel implements Runnable{
                 if(checkingPiece.row < king.row){
                     for(int row = checkingPiece.row; row < king.row; row++){
                         for(Piece piece : simPieces){
-                            if(piece != king && piece.color != currentColor && piece.canMove(checkingPiece.col, row)){
+                            if(piece != king && piece.color != currentColor && piece.canMove(checkingPiece.col, row))
                                 return false;
-                            }
                         }
                     }
                 }
+
                 if(checkingPiece.row > king.row){
                     for(int row = checkingPiece.row; row > king.row; row--){
                         for(Piece piece : simPieces){
-                            if(piece != king && piece.color != currentColor && piece.canMove(checkingPiece.col, row)){
+                            if(piece != king && piece.color != currentColor && piece.canMove(checkingPiece.col, row))
                                 return false;
-                            }
                         }
                     }
                 }
@@ -277,9 +258,8 @@ public class GamePanel  extends JPanel implements Runnable{
                 if(checkingPiece.col < king.col){
                     for(int col = checkingPiece.col; col < king.row; col++){
                         for(Piece piece : simPieces){
-                            if(piece != king && piece.color != currentColor && piece.canMove(col, checkingPiece.row)){
+                            if(piece != king && piece.color != currentColor && piece.canMove(col, checkingPiece.row))
                                 return false;
-                            }
                         }
                     }
                 }
@@ -287,9 +267,8 @@ public class GamePanel  extends JPanel implements Runnable{
                 if(checkingPiece.col < king.col){
                     for(int col = checkingPiece.col; col > king.row; col--){
                         for(Piece piece : simPieces){
-                            if(piece != king && piece.color != currentColor && piece.canMove(col, checkingPiece.row)){
+                            if(piece != king && piece.color != currentColor && piece.canMove(col, checkingPiece.row))
                                 return false;
-                            }
                         }
                     }
                 }
@@ -299,9 +278,8 @@ public class GamePanel  extends JPanel implements Runnable{
                     if(checkingPiece.col < king.col){
                         for(int col = checkingPiece.col, row = checkingPiece.row; col < king.col; col++, row++){
                             for(Piece piece : simPieces){
-                                if(piece != king && piece.color != currentColor && piece.canMove(col, row)){
+                                if(piece != king && piece.color != currentColor && piece.canMove(col, row))
                                     return false;
-                                }
                             }
                         }
                     }
@@ -309,9 +287,8 @@ public class GamePanel  extends JPanel implements Runnable{
                     if(checkingPiece.col > king.col){
                         for(int col = checkingPiece.col, row = checkingPiece.row; col > king.col; col--, row++){
                             for(Piece piece : simPieces){
-                                if(piece != king && piece.color != currentColor && piece.canMove(col, row)){
+                                if(piece != king && piece.color != currentColor && piece.canMove(col, row))
                                     return false;
-                                }
                             }
                         }
                     }
@@ -321,9 +298,8 @@ public class GamePanel  extends JPanel implements Runnable{
                     if(checkingPiece.col < king.col){
                         for(int col = checkingPiece.col, row = checkingPiece.row; col < king.col; col++, row--){
                             for(Piece piece : simPieces){
-                                if(piece != king && piece.color != currentColor && piece.canMove(col, row)){
+                                if(piece != king && piece.color != currentColor && piece.canMove(col, row))
                                     return false;
-                                }
                             }
                         }
                     }
@@ -331,16 +307,14 @@ public class GamePanel  extends JPanel implements Runnable{
                     if(checkingPiece.col > king.col){
                         for(int col = checkingPiece.col, row = checkingPiece.row; col > king.col; col--, row--){
                             for(Piece piece : simPieces){
-                                if(piece != king && piece.color != currentColor && piece.canMove(col, row)){
+                                if(piece != king && piece.color != currentColor && piece.canMove(col, row))
                                     return false;
-                                }
                             }
                         }
                     }
                 }
             }
         }
-
         return true;
     }
 
@@ -365,12 +339,12 @@ public class GamePanel  extends JPanel implements Runnable{
         king.row += rowPlus;
 
         if(king.canMove(king.col, king.row)){
-            if(king.hittingPiece != null){
+            if(king.hittingPiece != null)
                 simPieces.remove(king.hittingPiece.getIndex());
-            }
-            if(!isIllegal(king)){
+
+            if(!isIllegal(king))
                 validMove = true;
-            }
+
         }
         king.resetPosition();
         copyPieces(pieces, simPieces);
@@ -393,16 +367,14 @@ public class GamePanel  extends JPanel implements Runnable{
         int count = 0;
 
         for(Piece piece : simPieces){
-            if(piece.color != currentColor){
+            if(piece.color != currentColor)
                 count++;
-            }
         }
 
         if(count == 1){
             if(!kingCanMove(getKing(true)))
                 return true;
         }
-
         return false;
     }
 
@@ -411,20 +383,17 @@ public class GamePanel  extends JPanel implements Runnable{
             currentColor = false;
 
             for(Piece piece : pieces){
-                if(piece.color == false){
+                if(!piece.color)
                     piece.twoStepped = false;
-                }
             }
         } else {
             currentColor = true;
 
             for(Piece piece : pieces){
-                if(piece.color == true){
+                if(piece.color)
                     piece.twoStepped = false;
-                }
             }
         }
-
         activePiece = null;
     }
 
@@ -440,7 +409,6 @@ public class GamePanel  extends JPanel implements Runnable{
                 return true;
             }
         }
-
         return false;
     }
 
@@ -470,14 +438,10 @@ public class GamePanel  extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
-        // Board
         board.draw(g2);
 
-        // Pieces
-        for(Piece p : simPieces){
+        for(Piece p : simPieces)
             p.draw(g2);
-        }
 
         if(activePiece != null){
             if(canMove) {
@@ -487,15 +451,13 @@ public class GamePanel  extends JPanel implements Runnable{
                     g2.fillRect(activePiece.col * Board.SQUARE_SIZE, activePiece.row * Board.SQUARE_SIZE,
                             Board.SQUARE_SIZE, Board.SQUARE_SIZE);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-                }
-                else {
+                } else {
                     g2.setColor(Color.green);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
                     g2.fillRect(activePiece.col * Board.SQUARE_SIZE, activePiece.row * Board.SQUARE_SIZE, Board.SQUARE_SIZE, Board.SQUARE_SIZE);
                     g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
                 }
             }
-
             activePiece.draw(g2);
         }
 
@@ -529,11 +491,10 @@ public class GamePanel  extends JPanel implements Runnable{
         }
         if(gameOver){
             String s = "";
-            if(currentColor){
+            if(currentColor)
                 s = "White Wins";
-            } else {
+            else
                 s = "Black Wins";
-            }
 
             g2.setFont(new Font("Times New Roman", Font.BOLD, 90));
             g2.setColor(Color.GREEN);
