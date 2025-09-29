@@ -3,4 +3,5 @@ This project is a chess game implemented in Java with Swing-based GUI. its inclu
 - Promotion
 - Castling
 - En passant
+
 Program also supports all possible way to finish the game (checkmate, stalemate, draw, etc.).
